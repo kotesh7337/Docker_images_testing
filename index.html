@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Stay & Dine</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<header>
+
+    <div class="header-content">
+
+        <h1>🏨 Stay & Dine</h1>
+
+        <p>
+            Book hotels and order delicious food
+        </p>
+
+    </div>
+
+</header>
+
+
+<nav>
+
+    <button onclick="showSection('hotels')">
+        🏨 Hotels
+    </button>
+
+    <button onclick="showSection('food')">
+        🍴 Food
+    </button>
+
+</nav>
+
+
+<main>
+
+
+    <!-- HOTEL SECTION -->
+
+    <section id="hotels">
+
+        <h2>Find Your Hotel</h2>
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                id="city"
+                placeholder="Enter city e.g. Bangalore">
+
+            <button onclick="searchHotels()">
+                Search
+            </button>
+
+        </div>
+
+
+        <div id="hotelList"
+             class="card-container">
+
+            {% for hotel in hotels %}
+
+            <div class="card">
+
+                <div class="card-icon">
+                    🏨
+                </div>
+
+                <h3>
+                    {{ hotel.name }}
+                </h3>
+
+                <p>
+                    📍 {{ hotel.city }}
+                </p>
+
+                <p>
+                    ⭐ {{ hotel.rating }}
+                </p>
+
+                <p>
+                    {{ hotel.type }}
+                </p>
+
+                <h3 class="price">
+                    ₹{{ hotel.price }}
+                    <small>/ night</small>
+                </h3>
+
+                <p>
+                    {{ hotel.rooms }}
+                    rooms available
+                </p>
+
+                <button
+                    onclick="openHotelBooking({{ hotel.id }})">
+
+                    Book Hotel
+
+                </button>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOD SECTION -->
+
+    <section id="food">
+
+        <h2>Order Food</h2>
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                id="foodKeyword"
+                placeholder="Search food or restaurant">
+
+            <button onclick="searchFood()">
+                Search
+            </button>
+
+        </div>
+
+
+        <div id="foodList"
+             class="card-container">
+
+            {% for food in foods %}
+
+            <div class="card">
+
+                <div class="card-icon">
+                    🍴
+                </div>
+
+                <h3>
+                    {{ food.name }}
+                </h3>
+
+                <p>
+                    🏪 {{ food.restaurant }}
+                </p>
+
+                <p>
+                    {{ food.category }}
+                </p>
+
+                <h3 class="price">
+                    ₹{{ food.price }}
+                </h3>
+
+                <button
+                    onclick="openFoodOrder({{ food.id }})">
+
+                    Order Now
+
+                </button>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- HOTEL MODAL -->
+
+<div id="hotelModal"
+     class="modal">
+
+    <div class="modal-content">
+
+        <span
+            class="close"
+            onclick="closeHotelBooking()">
+            ×
+        </span>
+
+        <h2>🏨 Hotel Booking</h2>
+
+        <input
+            type="text"
+            id="guestName"
+            placeholder="Guest Name">
+
+        <input
+            type="number"
+            id="roomCount"
+            placeholder="Number of Rooms"
+            value="1"
+            min="1">
+
+        <input
+            type="number"
+            id="nightCount"
+            placeholder="Number of Nights"
+            value="1"
+            min="1">
+
+        <button onclick="bookHotel()">
+            Confirm Booking
+        </button>
+
+        <div id="hotelResult"></div>
+
+    </div>
+
+</div>
+
+
+<!-- FOOD MODAL -->
+
+<div id="foodModal"
+     class="modal">
+
+    <div class="modal-content">
+
+        <span
+            class="close"
+            onclick="closeFoodOrder()">
+            ×
+        </span>
+
+        <h2>🍴 Food Order</h2>
+
+        <input
+            type="text"
+            id="customerName"
+            placeholder="Customer Name">
+
+        <input
+            type="number"
+            id="foodQuantity"
+            placeholder="Quantity"
+            value="1"
+            min="1">
+
+        <button onclick="orderFood()">
+            Confirm Order
+        </button>
+
+        <div id="foodResult"></div>
+
+    </div>
+
+</div>
+
+
+<script src="{{ url_for('static', filename='script.js') }}">
+</script>
+
+</body>
+
+</html>
